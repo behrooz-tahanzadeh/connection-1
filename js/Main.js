@@ -15,7 +15,7 @@ Main =
 	
 	help:true,
 	
-	BgOpacity:0.1,
+	BgOpacity:1,
 	
 	
 	
