@@ -49,6 +49,14 @@ div#pp
 	cursor:pointer;
 }
 
+input#tail
+{
+	position:fixed;
+	bottom:30px;
+	left:80px;
+	width:200px;
+}
+
 div#help
 {
 	position:fixed;

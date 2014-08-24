@@ -22,10 +22,10 @@ Dot.prototype.move = function()
 	this.x += this.vx;
 	this.y += this.vy;
 	
-	if(this.x>Main.pageW || this.x<0)
+	if(this.x>Main.pageW-40 || this.x<40)
 		this.vx*=-1;
 	
-	if(this.y>Main.pageH || this.y<0)
+	if(this.y>Main.pageH-40 || this.y<40)
 		this.vy*=-1;
 	
 	this.ctx.moveTo(this.x+Main.DotsRadius, this.y);

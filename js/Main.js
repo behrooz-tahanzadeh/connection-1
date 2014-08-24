@@ -6,13 +6,16 @@ Main =
 	intervalTime:20,
 	intervalID:-1,
 		
-	DotsRadius:10,
+	DotsRadius:5,
 	Dots:[],
 	Connections:[],
 	
 	pageW:0,
 	pageH:0,
 	
+	help:true,
+	
+	BgOpacity:0.1,
 	
 	
 	
@@ -33,6 +36,16 @@ Main =
 		jQuery("div#pp").click(Main.pp);
 		
 		this.intervalID = setInterval(this.loop, this.intervalTime);
+		
+		jQuery('input#tail').change(Main.tailChange);
+	},
+	
+	
+	
+	
+	tailChange:function(e)
+	{
+		Main.BgOpacity = this.value;
 	},
 	
 	
@@ -40,15 +53,34 @@ Main =
 	
 	canvasClick: function(e)
 	{
+		if(Main.help)
+		{
+			Main.help = false;
+			jQuery("div#help").remove();
+		}
+		
 		var d = new Dot(e.pageX, e.pageY, Main.canvasX);
 		
 		var dl = (Main.Dots.length-1)*Math.random();
 		if(dl==0 && Main.Dots.length>1) dl = 1;
 		
+		var isAnyConnection = false;
+		
 		for(var i=0; i<Main.Dots.length-1; ++i)
 		{
 			if(Math.random()<0.3)
+			{
 				new Connection(d,Main.Dots[i],Main.canvasX);
+				isAnyConnection = true;
+			}
+		}
+		
+		if(!isAnyConnection && Main.Dots.length>2)
+		{
+			var i = (Main.Dots.length-1)*Math.random();
+			i = parseInt(i);
+			
+			new Connection(d,Main.Dots[i],Main.canvasX);
 		}
 	},
 	
@@ -59,7 +91,7 @@ Main =
 	{
 		var ctx = Main.canvasX;
 		
-		ctx.fillStyle = "rgba(255,255,255,0.1)";
+		ctx.fillStyle = "rgba(255,255,255,"+Main.BgOpacity+")";
 		ctx.fillRect(0,0,Main.pageW, Main.pageH);
 		
 		
@@ -68,6 +100,9 @@ Main =
 		
 		for(var i=0; i<Main.Dots.length; ++i)
 			Main.Dots[i].move();
+		
+		ctx.fillStyle = "Black";
+		ctx.fill();
 		
 		for(var i=0; i<Main.Connections.length; ++i)
 			Main.Connections[i].move();
