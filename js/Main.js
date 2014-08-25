@@ -38,6 +38,35 @@ Main =
 		this.intervalID = setInterval(this.loop, this.intervalTime);
 		
 		jQuery('input#tail').change(Main.tailChange);
+		
+		jQuery(window).keydown(Main.windowOnKeyPress);
+	},
+	
+	
+	
+	
+	windowOnKeyPress: function(e)
+	{
+		switch (e.keyCode)
+		{
+		case Keyboard.Right:
+			var v = parseFloat(jQuery('input#tail').val())+(e.shiftKey?0.1:0.01);
+			jQuery('input#tail').val(v);
+			Main.tailChange(null);
+			
+			break;
+			
+		case Keyboard.Left:
+			var v = parseFloat(jQuery('input#tail').val())-(e.shiftKey?0.1:0.01);
+			jQuery('input#tail').val(v);
+			Main.tailChange(null);
+			
+			break;
+			
+		case Keyboard.Space:
+			Main.pp();
+			break;
+		}
 	},
 	
 	
@@ -45,7 +74,7 @@ Main =
 	
 	tailChange:function(e)
 	{
-		Main.BgOpacity = this.value;
+		Main.BgOpacity = jQuery('input#tail').val();
 	},
 	
 	
@@ -118,13 +147,13 @@ Main =
 		if(Main.intervalID == -1)
 		{
 			Main.intervalID = setInterval(Main.loop, Main.intervalTime);
-			jQuery(this).html('pasue');
+			jQuery("div#pp").html('pasue');
 		}
 		else
 		{
 			clearInterval(Main.intervalID);
 			Main.intervalID = -1;
-			jQuery(this).html('play');
+			jQuery("div#pp").html('play');
 		}
 	}
 };//eo Main{}
